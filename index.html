@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Justin Rithesh | 3D Portfolio</title>
+
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #ff00cc, #3333ff);
+  color: white;
+}
+
+/* Loader */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  z-index: 100;
+  letter-spacing: 2px;
+}
+
+/* Content */
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+h1 {
+  font-size: 4rem;
+  background: linear-gradient(90deg, #ff00cc, #00ffff, #ffcc00);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+.socials {
+  margin-top: 25px;
+}
+
+.socials a {
+  margin: 0 15px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.socials a:hover {
+  color: yellow;
+  transform: scale(1.2);
+}
+
+/* Button */
+button {
+  margin-top: 30px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ff00cc, #00ffff);
+  color: white;
+  box-shadow: 0 0 20px #ff00cc;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">Loading 3D Experience...</div>
+
+<div class="content">
+  <h1>Justin Rithesh</h1>
+  <p>Full Stack Developer | IoT Builder | 3D Web Designer</p>
+
+  <div class="socials">
+    <a href="https://instagram.com/justintheone_17" target="_blank">Instagram</a>
+    <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+    <a href="https://github.com/justinrithesh17" target="_blank">GitHub</a>
+    <a href="mailto:justinrithesh14@gmail.com">Email</a>
+  </div>
+
+  <button onclick="alert('Projects section coming soon!')">
+    View My Work
+  </button>
+</div>
+
+<script>
+/* ======================
+   THREE.JS 3D BACKGROUND
+====================== */
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+/* Geometry */
+const geometry = new THREE.TorusKnotGeometry(1, 0.4, 100, 16);
+
+const material = new THREE.MeshStandardMaterial({
+  color: 0xff00ff,
+  metalness: 0.8,
+  roughness: 0.2
+});
+
+const knot = new THREE.Mesh(geometry, material);
+scene.add(knot);
+
+/* Lighting */
+const light = new THREE.PointLight(0xffffff, 2);
+light.position.set(5, 5, 5);
+scene.add(light);
+
+camera.position.z = 4;
+
+/* Animation */
+function animate() {
+  requestAnimationFrame(animate);
+
+  knot.rotation.x += 0.01;
+  knot.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+/* Responsive */
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+/* Hide Loader */
+setTimeout(() => {
+  document.getElementById("loader").style.display = "none";
+}, 2000);
+
+</script>
+
+</body>
+</html>
