@@ -80,15 +80,124 @@ section p {
   transform: translateY(-10px);
   background: rgba(255,255,255,0.08);
 }
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #aaa;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Resume button */
+.resume-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.resume-btn:hover {
+  background: #ddd;
+}
+
+/* Contact */
+.contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.contact input,
+.contact textarea {
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.contact button {
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact button:hover {
+  background: #ddd;
+}
+
+/* Scroll Reveal Animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </head>
 
 <body>
 
+<nav class="navbar">
+  <div class="logo">JR</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
 <div class="content">
   <h1>RISE ABOVE</h1>
   <div class="subtitle">ELITE · LIMITLESS · ASCEND</div>
 </div>
+
 <section class="about">
   <h2>About Me</h2>
   <p>
@@ -97,7 +206,9 @@ section p {
     I build scalable applications and futuristic digital interfaces
     focused on performance, creativity, and precision.
   </p>
+  <a href="resume.pdf" download class="resume-btn">Download Resume</a>
 </section>
+
 <section class="projects">
   <h2>Projects</h2>
 
@@ -229,7 +340,32 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+/* Scroll Reveal */
+function revealOnScroll() {
+  const reveals = document.querySelectorAll(".reveal");
+
+  for (let i = 0; i < reveals.length; i++) {
+    const windowHeight = window.innerHeight;
+    const elementTop = reveals[i].getBoundingClientRect().top;
+    const elementVisible = 100;
+
+    if (elementTop < windowHeight - elementVisible) {
+      reveals[i].classList.add("active");
+    }
+  }
+}
+
+window.addEventListener("scroll", revealOnScroll);
 </script>
 
+<section id="contact" class="contact reveal">
+  <h2>Contact Me</h2>
+  <form action="https://formspree.io/f/xnjbwraj" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
 </body>
 </html>
