@@ -193,12 +193,16 @@ html {
   </ul>
 </nav>
 
-<div class="content">
+<!-- HERO -->
+<div id="home" class="content">
   <h1>RISE ABOVE</h1>
   <div class="subtitle">ELITE · LIMITLESS · ASCEND</div>
 </div>
 
-<section class="about">
+<div style="height:100vh;"></div>
+
+<!-- ABOUT -->
+<section id="about" class="reveal parallax">
   <h2>About Me</h2>
   <p>
     I am Justin Rithesh, an engineering student passionate about
@@ -206,10 +210,10 @@ html {
     I build scalable applications and futuristic digital interfaces
     focused on performance, creativity, and precision.
   </p>
-  <a href="resume.pdf" download class="resume-btn">Download Resume</a>
 </section>
 
-<section class="projects">
+<!-- PROJECTS -->
+<section id="projects" class="reveal parallax">
   <h2>Projects</h2>
 
   <div class="card">
@@ -227,6 +231,33 @@ html {
     <p>Interactive cinematic experience using Three.js and custom particle systems.</p>
   </div>
 </section>
+
+<!-- RESUME -->
+<section class="reveal parallax">
+  <h2>Resume</h2>
+  <a href="resume.pdf" download class="resume-btn">Download Resume</a>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact reveal parallax">
+  <h2>Contact Me</h2>
+  <form action="https://formspree.io/f/xnjbwraj" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="social-icons">
+    <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+    <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+  </div>
+  <p>© 2026 Justin Rithesh · Rise Above</p>
+</footer>
 
 <script>
 
@@ -248,11 +279,15 @@ camera.position.z = 5;
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.domElement.style.position = "fixed";
+renderer.domElement.style.top = "0";
+renderer.domElement.style.left = "0";
+renderer.domElement.style.zIndex = "-1";
 document.body.appendChild(renderer.domElement);
 
 
 /* ======================
-   PARTICLE WINGS
+   GOLD PARTICLE WINGS
 ====================== */
 
 const particleCount = 5000;
@@ -262,12 +297,10 @@ const positions = new Float32Array(particleCount * 3);
 for (let i = 0; i < particleCount; i++) {
 
   let side = i % 2 === 0 ? -1 : 1;
-
   let x = side * (Math.random() * 2.5);
   let y = (Math.random() - 0.5) * 3;
   let z = (Math.random() - 0.5) * 2;
 
-  // Wing curve effect
   x *= Math.abs(y) * 0.7;
 
   positions[i * 3] = x;
@@ -278,8 +311,8 @@ for (let i = 0; i < particleCount; i++) {
 geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
 const material = new THREE.PointsMaterial({
-  color: 0xffffff,
-  size: 0.02,
+  color: 0xd4af37,   // GOLD
+  size: 0.025,
   transparent: true,
   opacity: 0.9
 });
@@ -288,19 +321,13 @@ const particles = new THREE.Points(geometry, material);
 scene.add(particles);
 
 
-/* ======================
-   SOFT GLOW LIGHT
-====================== */
-
-const glowLight = new THREE.PointLight(0xffffff, 1.5);
+/* GOLD LIGHT */
+const glowLight = new THREE.PointLight(0xffd700, 2);
 glowLight.position.set(0, 0, 3);
 scene.add(glowLight);
 
 
-/* ======================
-   MOUSE INTERACTION
-====================== */
-
+/* MOUSE INTERACTION */
 let mouseX = 0;
 let mouseY = 0;
 
@@ -310,17 +337,11 @@ document.addEventListener("mousemove", (event) => {
 });
 
 
-/* ======================
-   ANIMATION LOOP
-====================== */
-
+/* ANIMATION LOOP */
 function animate() {
   requestAnimationFrame(animate);
 
-  // Subtle floating motion
   particles.rotation.y += 0.0015;
-
-  // Parallax effect
   particles.rotation.x = mouseY * 0.2;
   particles.rotation.z = mouseX * 0.2;
 
@@ -330,42 +351,40 @@ function animate() {
 animate();
 
 
-/* ======================
-   RESPONSIVE
-====================== */
-
+/* RESPONSIVE */
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-/* Scroll Reveal */
+
+/* SCROLL REVEAL */
 function revealOnScroll() {
   const reveals = document.querySelectorAll(".reveal");
 
-  for (let i = 0; i < reveals.length; i++) {
+  reveals.forEach((el) => {
     const windowHeight = window.innerHeight;
-    const elementTop = reveals[i].getBoundingClientRect().top;
-    const elementVisible = 100;
+    const elementTop = el.getBoundingClientRect().top;
 
-    if (elementTop < windowHeight - elementVisible) {
-      reveals[i].classList.add("active");
+    if (elementTop < windowHeight - 100) {
+      el.classList.add("active");
     }
-  }
+  });
 }
 
 window.addEventListener("scroll", revealOnScroll);
+
+
+/* PARALLAX SECTIONS */
+window.addEventListener("scroll", () => {
+  document.querySelectorAll(".parallax").forEach(section => {
+    let offset = window.pageYOffset;
+    section.style.transform = "translateY(" + offset * 0.05 + "px)";
+  });
+});
+
 </script>
 
-<section id="contact" class="contact reveal">
-  <h2>Contact Me</h2>
-  <form action="https://formspree.io/f/xnjbwraj" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</section>
 </body>
 </html>
