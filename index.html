@@ -15,7 +15,7 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   background: #050505;
   font-family: "Helvetica Neue", Arial, sans-serif;
   color: white;
@@ -49,6 +49,37 @@ h1 {
   letter-spacing: 4px;
   color: #aaa;
 }
+section {
+  padding: 120px 20px;
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+}
+
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+}
+
+section p {
+  color: #bbb;
+  line-height: 1.8;
+}
+
+.card {
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  background: rgba(255,255,255,0.08);
+}
 </style>
 </head>
 
@@ -58,6 +89,33 @@ h1 {
   <h1>RISE ABOVE</h1>
   <div class="subtitle">ELITE · LIMITLESS · ASCEND</div>
 </div>
+<section class="about">
+  <h2>About Me</h2>
+  <p>
+    I am Justin Rithesh, an engineering student passionate about
+    full-stack development, IoT systems, and immersive 3D web experiences.
+    I build scalable applications and futuristic digital interfaces
+    focused on performance, creativity, and precision.
+  </p>
+</section>
+<section class="projects">
+  <h2>Projects</h2>
+
+  <div class="card">
+    <h3>Smart Attendance System</h3>
+    <p>Full-stack system with MongoDB, Express, React and Node.js including analytics dashboard.</p>
+  </div>
+
+  <div class="card">
+    <h3>IoT Monitoring System</h3>
+    <p>Arduino-based plant monitoring with DHT11 sensor, GSM alerts and LCD interface.</p>
+  </div>
+
+  <div class="card">
+    <h3>3D Web Portfolio</h3>
+    <p>Interactive cinematic experience using Three.js and custom particle systems.</p>
+  </div>
+</section>
 
 <script>
 
