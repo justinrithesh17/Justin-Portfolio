@@ -260,131 +260,47 @@ html {
 </footer>
 
 <script>
+// — particle sphere effect —
 
-/* ======================
-   SCENE SETUP
-====================== */
+const sphereParticles = new THREE.BufferGeometry();
+const count = 7000;
+const spherePos = new Float32Array(count * 3);
 
-const scene = new THREE.Scene();
+for (let i = 0; i < count; i++) {
+  const phi = Math.acos(2 * Math.random() - 1);
+  const theta = 2 * Math.PI * Math.random();
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.domElement.style.position = "fixed";
-renderer.domElement.style.top = "0";
-renderer.domElement.style.left = "0";
-renderer.domElement.style.zIndex = "-1";
-document.body.appendChild(renderer.domElement);
-
-
-/* ======================
-   GOLD PARTICLE WINGS
-====================== */
-
-const particleCount = 5000;
-const geometry = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount * 3);
-
-for (let i = 0; i < particleCount; i++) {
-
-  let side = i % 2 === 0 ? -1 : 1;
-  let x = side * (Math.random() * 2.5);
-  let y = (Math.random() - 0.5) * 3;
-  let z = (Math.random() - 0.5) * 2;
-
-  x *= Math.abs(y) * 0.7;
-
-  positions[i * 3] = x;
-  positions[i * 3 + 1] = y;
-  positions[i * 3 + 2] = z;
+  spherePos[i * 3] = Math.sin(phi) * Math.cos(theta);
+  spherePos[i * 3 + 1] = Math.sin(phi) * Math.sin(theta);
+  spherePos[i * 3 + 2] = Math.cos(phi);
 }
 
-geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+sphereParticles.setAttribute(
+  "position",
+  new THREE.BufferAttribute(spherePos, 3)
+);
 
-const material = new THREE.PointsMaterial({
-  color: 0xd4af37,   // GOLD
-  size: 0.025,
+const sphereMaterial = new THREE.PointsMaterial({
+  color: 0xd4af37, // gold
+  size: 0.02,
   transparent: true,
-  opacity: 0.9
+  opacity: 0.8,
 });
 
-const particles = new THREE.Points(geometry, material);
-scene.add(particles);
+const sphere = new THREE.Points(sphereParticles, sphereMaterial);
+scene.add(sphere);
 
+function animateSphere() {
+  requestAnimationFrame(animateSphere);
 
-/* GOLD LIGHT */
-const glowLight = new THREE.PointLight(0xffd700, 2);
-glowLight.position.set(0, 0, 3);
-scene.add(glowLight);
-
-
-/* MOUSE INTERACTION */
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener("mousemove", (event) => {
-  mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-  mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
-
-/* ANIMATION LOOP */
-function animate() {
-  requestAnimationFrame(animate);
-
-  particles.rotation.y += 0.0015;
-  particles.rotation.x = mouseY * 0.2;
-  particles.rotation.z = mouseX * 0.2;
+  sphere.rotation.y += 0.002;
+  sphere.rotation.x = mouseY * 0.2;
+  sphere.rotation.z = mouseX * 0.2;
 
   renderer.render(scene, camera);
 }
 
-animate();
-
-
-/* RESPONSIVE */
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-
-/* SCROLL REVEAL */
-function revealOnScroll() {
-  const reveals = document.querySelectorAll(".reveal");
-
-  reveals.forEach((el) => {
-    const windowHeight = window.innerHeight;
-    const elementTop = el.getBoundingClientRect().top;
-
-    if (elementTop < windowHeight - 100) {
-      el.classList.add("active");
-    }
-  });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-
-
-/* PARALLAX SECTIONS */
-window.addEventListener("scroll", () => {
-  document.querySelectorAll(".parallax").forEach(section => {
-    let offset = window.pageYOffset;
-    section.style.transform = "translateY(" + offset * 0.05 + "px)";
-  });
-});
-
+animateSphere();
 </script>
-
 </body>
 </html>
